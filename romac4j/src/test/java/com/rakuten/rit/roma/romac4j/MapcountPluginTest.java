@@ -52,9 +52,9 @@ public class MapcountPluginTest extends TestCase {
         keys.put("ccc", 1);
         HashMap<String, Object> result = mcc.countup("key1", keys);
         assertEquals(4, result.size());
-        assertEquals("1", result.get("a"));
-        assertEquals("1", result.get("bb"));
-        assertEquals("1", result.get("ccc"));
+        assertEquals(1, result.get("a"));
+        assertEquals(1, result.get("bb"));
+        assertEquals(1, result.get("ccc"));
     }
 
     public void testCountup02() throws Exception {
@@ -65,7 +65,7 @@ public class MapcountPluginTest extends TestCase {
             result = mcc.countup("key2", keys);
         }
         assertEquals(2, result.size());
-        assertEquals("100", result.get("a"));
+        assertEquals(100, result.get("a"));
     }
 
     public void testCountup03() throws Exception {
@@ -156,15 +156,15 @@ public class MapcountPluginTest extends TestCase {
 
         result = mcc.get("key10", subKeys);
         assertEquals(lt, (String) result.get("last_updated_date"));
-        assertEquals("1", result.get("a"));
-        assertEquals("2", result.get("b"));
-        assertEquals("3", result.get("c"));
+        assertEquals(1, result.get("a"));
+        assertEquals(2, result.get("b"));
+        assertEquals(3, result.get("c"));
 
         result = mcc.get("key10", subKeys);
         assertEquals(lt, (String) result.get("last_updated_date"));
-        assertEquals("1", result.get("a"));
-        assertEquals("2", result.get("b"));
-        assertEquals("3", result.get("c"));
+        assertEquals(1, result.get("a"));
+        assertEquals(2, result.get("b"));
+        assertEquals(3, result.get("c"));
     }
 
     public void testGet02() throws Exception {
@@ -190,10 +190,10 @@ public class MapcountPluginTest extends TestCase {
 
         result = mcc.update("key12", subKeys, 0);
         assertNotSame(lt, (String) result.get("last_updated_date"));
-        assertEquals("1", result.get("a"));
+        assertEquals(1, result.get("a"));
 
         result = mcc.update("key12", subKeys, 0);
         assertNotSame(lt, (String) result.get("last_updated_date"));
-        assertEquals("1", result.get("a"));
+        assertEquals(1, result.get("a"));
     }
 }
