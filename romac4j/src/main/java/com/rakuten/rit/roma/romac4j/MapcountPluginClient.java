@@ -70,10 +70,14 @@ public class MapcountPluginClient extends ClientObject {
             StringBuilder sb, int expt) throws IOException {
         ValueReceiver rcv = sendCmdV(comm, key, expt + " " + sb.length(), sb
                 .toString().getBytes());
+        String value = rcv.getValueString();
+        if (value == null) {
+          return null;
+        }
         ObjectMapper objectMapper = new ObjectMapper();
         @SuppressWarnings("unchecked")
         HashMap<String, Object> result = objectMapper.readValue(
-                rcv.getValueString(), HashMap.class);
+                value, HashMap.class);
         return result;
     }
 }
