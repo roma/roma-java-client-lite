@@ -29,15 +29,15 @@ public class RomaSocketPoolTest extends TestCase {
         // con1 must equal con2
         assertEquals(con1, con2);
 
-        // invalid con1
-        FIXTURE.invalidateConnection(con1);
+        // invalid con2
+        FIXTURE.invalidateConnection(con2);
         // get con3
         Connection con3 = FIXTURE.getConnection(nodeId);
-        FIXTURE.returnConnection(con3);
         assertNotSame(con2, con3);
         // test connection.
-        assertTrue(con1.isClosed());
+        assertTrue(con2.isClosed());
         assertTrue(con3.isConnected());
+        FIXTURE.returnConnection(con3);
     }
 
     public void testGetConnections() throws Exception{
