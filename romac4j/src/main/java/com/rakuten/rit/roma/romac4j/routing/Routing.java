@@ -123,6 +123,7 @@ public final class Routing extends Thread {
             return;
         }
         failCount(con.getNodeId());
+        sps.invalidateConnection(con);
         con.forceClose();
     }
 

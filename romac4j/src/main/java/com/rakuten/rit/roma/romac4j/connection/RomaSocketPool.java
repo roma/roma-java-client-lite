@@ -76,6 +76,23 @@ public class RomaSocketPool {
         }
     }
 
+    public void invalidateConnection(Connection con) {
+        GenericObjectPool<Connection> pool = poolMap.get(con.getNodeId());
+        if (pool != null) {
+            synchronized(pool) {
+                if(poolMap.containsKey(con.getNodeId())) {
+                    try {
+                        pool.invalidateObject(con);
+                        con.forceClose();
+                        return;
+                    } catch (Exception e) {
+                        log.error("invalidateConnection() : " + e.getMessage());
+                    }
+                }
+            }
+        }
+    }
+
     public void returnConnection(Connection con) {
         try {
             con.setSoTimeout(0);
