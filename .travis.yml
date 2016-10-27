@@ -1,4 +1,7 @@
 language: java
+
+before_install: cd ./romac4j
+
 jdk:
   - oraclejdk7
   - oraclejdk8
