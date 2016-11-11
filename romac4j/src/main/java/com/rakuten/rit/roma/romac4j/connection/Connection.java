@@ -24,8 +24,8 @@ public class Connection extends Socket {
     }
 
     @Override
-    public void connect(SocketAddress endpoint) throws IOException {
-        super.connect(endpoint);
+    public void connect(SocketAddress endpoint, int timeout) throws IOException {
+        super.connect(endpoint, timeout);
         is = new BufferedInputStream(getInputStream());
         os = new BufferedOutputStream(getOutputStream());
     }
