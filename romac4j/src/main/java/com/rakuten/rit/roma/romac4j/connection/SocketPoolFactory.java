@@ -8,7 +8,12 @@ import org.apache.commons.pool.PoolableObjectFactory;
 public class SocketPoolFactory implements PoolableObjectFactory<Connection> {
     private String nodeId;
     private int bufferSize;
-    private int timeout;
+    private int timeout = 1000;
+
+    public SocketPoolFactory(String nid, int bufferSize) {
+        this.nodeId = nid;
+        this.bufferSize = bufferSize;
+    }
 
     public SocketPoolFactory(String nid, int bufferSize, int timeout) {
         this.nodeId = nid;
