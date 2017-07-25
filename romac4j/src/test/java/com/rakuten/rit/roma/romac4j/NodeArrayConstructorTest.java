@@ -3,7 +3,7 @@ package com.rakuten.rit.roma.romac4j;
 import junit.framework.Test;
 import junit.framework.TestCase;
 
-public class NodeArrayConstractorTest extends TestCase {
+public class NodeArrayConstructorTest extends TestCase {
     private void checkSetGet(String[] nodeIds) throws Exception {
         RomaClient rc = null;
 
