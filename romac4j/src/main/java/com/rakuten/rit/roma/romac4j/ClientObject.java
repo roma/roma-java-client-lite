@@ -19,27 +19,31 @@ public class ClientObject {
         this.routing = obj.routing;
         this.maxRetry = obj.maxRetry;
     }
-    
-    public ClientObject(String nodeId){
+
+    public ClientObject(String nodeId) {
+        this(new String[]{ nodeId} );
+    }
+
+    public ClientObject(String[] nodeIds) {
         BasicConfigurator.configure();
 
         try{
             RomaSocketPool.getInstance();
-        }catch(RuntimeException e){
+        } catch(RuntimeException e){
             RomaSocketPool.init();
             log.warn("ClientObject() : SocketPool initialized in RomaClient().");
         }
-        
-        routing = new Routing(nodeId);
+
+        routing = new Routing(nodeIds);
         routing.start();
-        
+
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
             log.error("ClientObject() : " + e.getMessage());
         }
     }
-    
+
     public void destroy() {
         routing.stopThread();
     }
