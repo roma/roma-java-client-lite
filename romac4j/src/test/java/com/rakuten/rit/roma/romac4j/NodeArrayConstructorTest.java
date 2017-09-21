@@ -20,7 +20,7 @@ public class NodeArrayConstructorTest extends TestCase {
         }
     }
 
-    public void testAliveNodes() throws Exception {
+    public void testFirstNodeIsAlive() throws Exception {
         checkSetGet(new String[]{"localhost_11211", "localhost_11311"});
     }
 
