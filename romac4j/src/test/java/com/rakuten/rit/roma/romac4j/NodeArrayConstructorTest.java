@@ -12,6 +12,7 @@ public class NodeArrayConstructorTest extends TestCase {
 
             assertTrue(rc.set("key", "test", 0));
             assertEquals("test", rc.getString("key"));
+            rc.delete("key");
         } finally {
             if(rc != null) {
                 rc.destroy();
