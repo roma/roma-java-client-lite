@@ -111,10 +111,10 @@ public class ClientObject {
                 routing.returnConnection(con);
             } catch (ParseException e) {
                 routing.returnConnection(con);
-                log.error("sendCmd(): " + e.getMessage());
+                log.error("sendCmd(): ", e);
                 throw new RuntimeException(e);
             } catch (Exception e) {
-                log.error("sendCmd(): " + e.getMessage());
+                log.error("sendCmd(): ", e);
                 retry = true;
                 log.debug("sendCmd(): retry=" + rcv.retry);
                 routing.failCount(con);

@@ -71,7 +71,7 @@ public final class Routing extends Thread {
                 }
                 Thread.sleep(threadSleep);
             } catch (Exception e) {
-                log.debug("routing check thread : " + e.getMessage());
+                log.debug("routing check thread : ", e);
             }
         }
         log.info("routing check thread : stopped");
@@ -85,8 +85,38 @@ public final class Routing extends Thread {
         if (routingData != null) {
             return (sps.getConnection(routingData.getRandomNodeId()));
         } else {
-            int n = rnd.nextInt(initialNodes.length);
-            return (sps.getConnection(initialNodes[n]));
+
+            Connection c = null;
+            try {
+                int n = rnd.nextInt(initialNodes.length);
+                String node = initialNodes[n];
+                c =  sps.getConnection(node);
+                getMklHash(c);
+                return c;
+            } catch(Exception e) {
+                log.debug("getConnection error ", e);
+                if (c != null) {
+                    failCount(c);
+                    c = null;
+                }
+            }
+
+            // randam access node was dead. try to get connection sequentially.
+            for(String node : initialNodes) {
+                try {
+                    c =  sps.getConnection(node);
+                    getMklHash(c);
+                    return c;
+                } catch(Exception e) {
+                    log.debug("getConnection error ", e);
+                    if (c != null) {
+                        failCount(c);
+                        c = null;
+                    }
+                }
+            }
+
+            return null;
         }
     }
 
@@ -101,9 +131,9 @@ public final class Routing extends Thread {
             }
             return (sps.getConnection(nid));
         } catch (NoSuchAlgorithmException ex) {
-            log.error("getConnection() : " + ex.getMessage());
+            log.error("getConnection() : ", ex);
             // fatal error : stop an application
-            throw new RuntimeException("fatal : " + ex.getMessage());
+            throw new RuntimeException("fatal : ", ex);
         } catch (Exception ex2) {
             // returns a dummy connection for failCount()
             return new Connection(nid, 0);
@@ -154,15 +184,22 @@ public final class Routing extends Thread {
     }
 
     private String getMklHash() {
-        Connection con = null;
+        try {
+            return getMklHash(getConnection());
+        } catch (Exception e) {
+            log.error("getMklHash() : ", e);
+            return null;
+        }
+    }
+
+    private String getMklHash(Connection con) {
         Receiver rcv = new StringReceiver();
         try {
-            con = getConnection();
             con.write("mklhash 0");
             rcv.receive(con);
             returnConnection(con);
         } catch (Exception e) {
-            log.error("getMklHash() : " + e.getMessage());
+            log.error("getMklHash() : ", e);
             failCount(con);
             return null;
         }
@@ -181,20 +218,20 @@ public final class Routing extends Thread {
             routingData = new RoutingData(buff);
             returnConnection(con);
         } catch (ParseException e) {
-            log.error("getRoutingDump() : " + e.getMessage());
+            log.error("getRoutingDump() : ", e);
             returnConnection(con);
             return null;
         } catch (Exception e) {
-            log.warn("getRoutingDump() : " + e.getMessage());
+            log.warn("getRoutingDump() : ", e);
             failCount(con);
             return null;
         }
         return routingData;
     }
-    
+
     private class RoutingReceiver extends Receiver {
         private byte[] value = null;
-        
+
         @Override
         public void receive(Connection con) throws TimeoutException, IOException, ParseException {
             int len = 0;
@@ -206,7 +243,7 @@ public final class Routing extends Thread {
             try {
                 len = Integer.parseInt(str);
             } catch (NumberFormatException e) {
-                log.error("RoutingReceiver.receive() : NumberFormatException [" + str + "] " + e.getMessage());
+                log.error("RoutingReceiver.receive() : NumberFormatException [" + str + "] ", e);
                 throw new ParseException(str, -1);
             }
             if (len > 0) {
