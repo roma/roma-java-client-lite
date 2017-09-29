@@ -6,7 +6,7 @@
 
   <groupId>com.rakuten.rit.roma</groupId>
   <artifactId>romac4j</artifactId>
-  <version>1.0.0</version>
+  <version>1.1.0</version>
   <packaging>jar</packaging>
 
   <name>romac4j</name>
