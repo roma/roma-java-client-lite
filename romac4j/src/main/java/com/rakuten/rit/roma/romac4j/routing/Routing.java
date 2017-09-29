@@ -169,7 +169,9 @@ public final class Routing extends Thread {
                 log.info("failCount(): failover");
                 failCountMap.clear();
                 prevRoutingData = routingData;
-                routingData = routingData.failOver(nid);
+                if(routingData != null) {
+                    routingData = routingData.failOver(nid);
+                }
                 sps.deleteConnection(nid);
             } else {
                 failCountMap.put(nid, n);
