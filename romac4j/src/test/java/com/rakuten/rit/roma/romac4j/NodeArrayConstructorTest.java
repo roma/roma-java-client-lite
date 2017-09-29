@@ -3,6 +3,12 @@ package com.rakuten.rit.roma.romac4j;
 import junit.framework.Test;
 import junit.framework.TestCase;
 
+
+/**
+ * This is test case for nodeId array constructor.
+ *
+ * Some test case include dead(can't connect) node information.
+ */
 public class NodeArrayConstructorTest extends TestCase {
     private void checkSetGet(String[] nodeIds) throws Exception {
         RomaClient rc = null;

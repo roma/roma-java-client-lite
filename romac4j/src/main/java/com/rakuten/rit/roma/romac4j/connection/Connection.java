@@ -29,7 +29,7 @@ public class Connection extends Socket {
         is = new BufferedInputStream(getInputStream());
         os = new BufferedOutputStream(getOutputStream());
     }
-    
+
     public void write(String cmd, String key, String opt, byte[] value,
             int casid) throws TimeoutException, IOException {
         if (cmd == null || cmd.length() == 0) {
@@ -37,6 +37,13 @@ public class Connection extends Socket {
             // fatal error : stop an application
             throw new IllegalArgumentException("fatal : cmd string is null or empty.");
         }
+
+        if (os == null) {
+            log.error("write() : os is null");
+            // fatal error : stop an application
+            throw new RuntimeException("fatal : os is null:" + nodeId);
+        }
+
         String cmdBuff = cmd;
         if (key != null && key.length() != 0) {
             cmdBuff += " " + key;

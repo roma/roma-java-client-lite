@@ -87,14 +87,15 @@ public final class Routing extends Thread {
         } else {
 
             Connection c = null;
+            String node = null;
             try {
                 int n = rnd.nextInt(initialNodes.length);
-                String node = initialNodes[n];
+                node = initialNodes[n];
                 c =  sps.getConnection(node);
                 getMklHash(c);
                 return c;
             } catch(Exception e) {
-                log.debug("getConnection error ", e);
+                log.debug("getConnection error(" + node + ")", e);
                 if (c != null) {
                     failCount(c);
                     c = null;
@@ -102,13 +103,13 @@ public final class Routing extends Thread {
             }
 
             // randam access node was dead. try to get connection sequentially.
-            for(String node : initialNodes) {
+            for(String n : initialNodes) {
                 try {
-                    c =  sps.getConnection(node);
+                    c =  sps.getConnection(n);
                     getMklHash(c);
                     return c;
                 } catch(Exception e) {
-                    log.debug("getConnection error ", e);
+                    log.debug("getConnection error(" + n + ")", e);
                     if (c != null) {
                         failCount(c);
                         c = null;
@@ -129,12 +130,13 @@ public final class Routing extends Thread {
                         + key);
                 return getConnection();
             }
-            return (sps.getConnection(nid));
+            return sps.getConnection(nid);
         } catch (NoSuchAlgorithmException ex) {
             log.error("getConnection() : ", ex);
             // fatal error : stop an application
             throw new RuntimeException("fatal : ", ex);
         } catch (Exception ex2) {
+            log.error("getConnection() Exception. Return dummy connection object ", ex2);
             // returns a dummy connection for failCount()
             return new Connection(nid, 0);
         }
