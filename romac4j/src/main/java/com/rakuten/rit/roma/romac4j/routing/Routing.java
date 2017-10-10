@@ -124,6 +124,10 @@ public final class Routing extends Thread {
     public Connection getConnection(String key) throws Exception {
         String nid = null;
         try {
+            if(routingData == null) {
+                log.debug("routingData isn't initialized:" + key);
+                return getConnection();
+            }
             nid = routingData.getPrimaryNodeId(key);
             if (nid == null) {
                 log.error("getConnection() : can't get a primary node. key = "
