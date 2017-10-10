@@ -13,7 +13,7 @@ public class RomaSocketPool {
     protected static Logger log = Logger.getLogger(RomaSocketPool.class
             .getName());
     private static RomaSocketPool instance = null;
-    private static final int GET_CONNECTION_RETRY_MAX = 5;
+    private static final int GET_CONNECTION_RETRY_MAX = GenericObjectPool.DEFAULT_MAX_IDLE + 1;
 
     private RomaSocketPool() {
         poolMap = Collections.synchronizedMap(new HashMap<String, GenericObjectPool<Connection>>());
