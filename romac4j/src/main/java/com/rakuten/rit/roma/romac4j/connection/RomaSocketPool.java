@@ -13,6 +13,7 @@ public class RomaSocketPool {
     protected static Logger log = Logger.getLogger(RomaSocketPool.class
             .getName());
     private static RomaSocketPool instance = null;
+    private static final int GET_CONNECTION_RETRY_MAX = 5;
 
     private RomaSocketPool() {
         poolMap = Collections.synchronizedMap(new HashMap<String, GenericObjectPool<Connection>>());
@@ -50,10 +51,10 @@ public class RomaSocketPool {
     }
 
     public synchronized Connection getConnection(String nodeId) throws Exception {
-        return getConnection(nodeId, false);
+        return getConnection(nodeId, 0);
     }
 
-    public synchronized Connection getConnection(String nodeId, boolean retry) throws Exception {
+    public synchronized Connection getConnection(String nodeId, int retryCount) throws Exception {
         GenericObjectPool<Connection> pool = poolMap.get(nodeId);
         if (pool == null) {
             PoolableObjectFactory<Connection> factory =
@@ -74,8 +75,9 @@ public class RomaSocketPool {
             } catch (Exception e2) {
                 log.debug("socket close error", e2);
             }
-            if(!retry) {
-                con = getConnection(nodeId);
+            if(retryCount < GET_CONNECTION_RETRY_MAX) {
+                log.debug("getConnection retry");
+                con = getConnection(nodeId, (retryCount + 1));
             } else {
                 throw e;
             }
