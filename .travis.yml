@@ -3,7 +3,6 @@ language: java
 before_install:
   - pushd ./tools/test_roma_server
   - ./run_test_roma.sh
-  - ps aux | grep romad
   - popd
   - cd ./romac4j
 
