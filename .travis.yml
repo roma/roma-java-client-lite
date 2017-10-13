@@ -1,6 +1,10 @@
 language: java
 
-before_install: cd ./romac4j
+before_install:
+  - pushd ./tools/test_roma_server
+  - ./run_test_roma.sh
+  - popd
+  - cd ./romac4j
 
 jdk:
   - oraclejdk7
