@@ -58,7 +58,7 @@ public class RomaSocketPool {
         GenericObjectPool<Connection> pool = poolMap.get(nodeId);
         if (pool == null) {
             PoolableObjectFactory<Connection> factory =
-                    new SocketPoolFactory(nodeId, bufferSize);
+                    new SocketPoolFactory(nodeId, bufferSize, timeout);
             pool = new GenericObjectPool<Connection>(factory);
             pool.setMaxActive(maxActive);
             pool.setMaxIdle(maxIdle);
