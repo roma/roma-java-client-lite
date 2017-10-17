@@ -25,4 +25,8 @@ for port in 11211 11311; do
     fi
 done
 
+# test
+echo ROMA connect test
+bundle exec roma-adm 'get test' 11211
+
 popd
