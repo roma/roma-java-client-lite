@@ -6,6 +6,14 @@ before_install:
   - popd
   - cd ./romac4j
 
+after_failure:
+  - pushd ../tools/test_roma_server
+  - lsof -i:11211
+  - ss | grep 11211
+  - ping -c 1 localhost
+  - cat app/logs/*.log
+  - popd
+
 jdk:
   - oraclejdk7
   - oraclejdk8
