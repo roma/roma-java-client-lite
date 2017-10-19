@@ -3,13 +3,19 @@ language: java
 before_install:
   - pushd ./tools/test_roma_server
   - ./run_test_roma.sh
+  - lsof -i:11311
+  - ss | grep 11311
+  - lsof -i:11411
+  - ss | grep 11411
   - popd
   - cd ./romac4j
 
 after_failure:
   - pushd ../tools/test_roma_server
-  - lsof -i:11211
-  - ss | grep 11211
+  - lsof -i:11311 ; echo
+  - ss | grep 11311 ; echo
+  - lsof -i:11411 ; echo
+  - ss | grep 11411 ; echo
   - ping -c 1 localhost
   - cat app/logs/*.log
   - popd
