@@ -27,14 +27,14 @@ public class NodeArrayConstructorTest extends TestCase {
     }
 
     public void testFirstNodeIsAlive() throws Exception {
-        checkSetGet(new String[]{"localhost_11211", "localhost_11311"});
+        checkSetGet(new String[]{"localhost_11311", "localhost_11411"});
     }
 
     public void testFirstNodeIsDead() throws Exception {
-        checkSetGet(new String[]{"localhost_11111", "localhost_11211"});
+        checkSetGet(new String[]{"localhost_11011", "localhost_11311"});
     }
 
     public void testSecondNodeIsDead() throws Exception {
-        checkSetGet(new String[]{"localhost_11211", "localhost_11311"});
+        checkSetGet(new String[]{"localhost_11311", "localhost_11511"});
     }
 }

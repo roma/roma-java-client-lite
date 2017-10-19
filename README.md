@@ -9,7 +9,7 @@ Roma is promoted by [Rakuten, Inc.](http://global.rakuten.com/corp/) and [Rakute
 
 ## Test
 
-Start ROMA server at localhost port 11211 and localhost port 11311, before run test.
+Start ROMA server at localhost port 11311 and localhost port 11411, before run test.
 
 Run test as below command.
 

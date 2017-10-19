@@ -30,10 +30,10 @@ public class ClosedSocketTest extends TestCase {
             }
 
             // routing
-            Connection con = routing.getConnection("localhost_11211");
+            Connection con = routing.getConnection("localhost_11311");
             con.close();
             routing.returnConnection(con);
-            con = routing.getConnection("localhost_11311");
+            con = routing.getConnection("localhost_11411");
             con.close();
             routing.returnConnection(con);
         }
@@ -43,7 +43,7 @@ public class ClosedSocketTest extends TestCase {
         TestRomaClient rc = null;
 
         try {
-            rc = new TestRomaClient("localhost_11211");
+            rc = new TestRomaClient("localhost_11311");
             rc.closeSocketForTest();
 
             assertTrue(rc.set("key", "", 0));
