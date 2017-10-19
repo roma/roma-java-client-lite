@@ -50,4 +50,10 @@ if [ $i -eq ${MAX_RETRY} ]; then
     exit 1
 fi
 
+# check each port
+for port in 11311 11411; do
+    lsof -i:${port}
+    ss | grep ${port}
+done
+
 popd
