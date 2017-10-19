@@ -13,7 +13,7 @@ public class MapcountPluginTest extends TestCase {
     static MapcountPluginClient mcc = null;
 
     static void oneTimeSetUp() throws Exception {
-        rc = new RomaClient("localhost_11211");
+        rc = new RomaClient("localhost_11311");
         mcc = new MapcountPluginClient(rc);
     }
 

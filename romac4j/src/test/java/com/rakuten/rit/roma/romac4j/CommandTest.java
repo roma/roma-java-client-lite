@@ -12,7 +12,7 @@ public class CommandTest extends TestCase {
     static RomaClient rc = null;
 
     static void oneTimeSetUp() throws Exception {
-        rc = new RomaClient("localhost_11211");
+        rc = new RomaClient("localhost_11311");
     }
 
     static void oneTimeTearDown() throws Exception {
