@@ -8,16 +8,23 @@ import org.apache.commons.pool.PoolableObjectFactory;
 public class SocketPoolFactory implements PoolableObjectFactory<Connection> {
     private String nodeId;
     private int bufferSize;
+    private int timeout = 1000;
 
     public SocketPoolFactory(String nid, int bufferSize) {
         this.nodeId = nid;
         this.bufferSize = bufferSize;
     }
 
+    public SocketPoolFactory(String nid, int bufferSize, int timeout) {
+        this.nodeId = nid;
+        this.bufferSize = bufferSize;
+        this.timeout = timeout;
+    }
+
     public Connection makeObject() throws IOException {
         Connection con = new Connection(nodeId, bufferSize);
         String[] host = nodeId.split("_");
-        con.connect(new InetSocketAddress(host[0], Integer.valueOf(host[1])));
+        con.connect(new InetSocketAddress(host[0], Integer.valueOf(host[1])), timeout);
         return con;
     }
 
