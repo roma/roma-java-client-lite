@@ -12,7 +12,7 @@ public class AListPluginTest extends TestCase {
     static AListPluginClient ac = null;
 
     static void oneTimeSetUp() throws Exception {
-        rc = new RomaClient("localhost_11211");
+        rc = new RomaClient("localhost_11311");
         ac = new AListPluginClient(rc);
     }
 
