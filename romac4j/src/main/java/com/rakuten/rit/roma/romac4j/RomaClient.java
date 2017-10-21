@@ -19,6 +19,10 @@ public class RomaClient extends ClientObject {
         super(nodeId);
     }
 
+    public RomaClient(String[] nodeIds) {
+        super(nodeIds);
+    }
+
     public byte[] get(String key) throws IOException {
         return sendCmdV("get", key).getValue();
     }

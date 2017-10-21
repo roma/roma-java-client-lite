@@ -8,3 +8,8 @@ target/
 .classpath
 .project
 .settings
+
+# gtags files
+GPATH
+GRTAGS
+GTAGS

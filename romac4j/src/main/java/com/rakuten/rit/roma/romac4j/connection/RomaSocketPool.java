@@ -13,6 +13,7 @@ public class RomaSocketPool {
     protected static Logger log = Logger.getLogger(RomaSocketPool.class
             .getName());
     private static RomaSocketPool instance = null;
+    private static final int GET_CONNECTION_RETRY_MAX = GenericObjectPool.DEFAULT_MAX_IDLE + 1;
 
     private RomaSocketPool() {
         poolMap = Collections.synchronizedMap(new HashMap<String, GenericObjectPool<Connection>>());
@@ -50,9 +51,13 @@ public class RomaSocketPool {
     }
 
     public synchronized Connection getConnection(String nodeId) throws Exception {
+        return getConnection(nodeId, 0);
+    }
+
+    public synchronized Connection getConnection(String nodeId, int retryCount) throws Exception {
         GenericObjectPool<Connection> pool = poolMap.get(nodeId);
         if (pool == null) {
-            PoolableObjectFactory<Connection> factory = 
+            PoolableObjectFactory<Connection> factory =
                     new SocketPoolFactory(nodeId, bufferSize, timeout);
             pool = new GenericObjectPool<Connection>(factory);
             pool.setMaxActive(maxActive);
@@ -61,7 +66,22 @@ public class RomaSocketPool {
             poolMap.put(nodeId, pool);
         }
         Connection con = pool.borrowObject();
-        con.setSoTimeout(timeout);
+        try {
+            con.setSoTimeout(timeout);
+        } catch (SocketException e) {
+            log.debug("getConnection setSoTimeout throws exception, so close it", e);
+            try {
+                con.close();
+            } catch (Exception e2) {
+                log.debug("socket close error", e2);
+            }
+            if(retryCount < GET_CONNECTION_RETRY_MAX) {
+                log.debug("getConnection retry");
+                con = getConnection(nodeId, (retryCount + 1));
+            } else {
+                throw e;
+            }
+        }
 
         return con;
     }
